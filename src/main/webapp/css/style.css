@@ -1,0 +1,31 @@
+.left_ul{
+    float: left;
+    list-style-type: none;
+}
+
+.center_ul{
+    float: left;
+    list-style-type: none;
+}
+.right_ul{
+    float: left;
+    list-style-type: none;
+}
+
+.lable{
+    margin-top: 15%;
+    margin-left: 25%;
+}
+
+.field{
+    height: 30px;
+}
+
+.errorLabel {
+    color: #ff0085;
+    padding: 5px 0px;
+    display: none;
+}
+.Error .errorLabel {
+    display: block;
+}
