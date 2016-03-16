@@ -4,6 +4,7 @@ package com.expert.dto;
  * Created by dmytro on 13.03.16.
  */
 public class Person {
+
     private int id;
     private String position;
     private String firstName;

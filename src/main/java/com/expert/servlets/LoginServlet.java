@@ -29,19 +29,7 @@ public class LoginServlet extends HttpServlet{
         userId = req.getParameter("userId");
         passwordId = req.getParameter("passwordId");
         System.out.println(userId + " + " + passwordId);
-        LoginService loginService = new LoginService();
-        boolean result = loginService.authenticate(userId, passwordId);
-        if (result) {
-            Person person = loginService.getUserDetails(userId);
-            req.setAttribute("user", person);
-//            resp.sendRedirect("success.jsp");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("success.jsp");
-            dispatcher.forward(req,resp);
-            return;
-        }
-        else {
-            resp.sendRedirect("login.jsp");
-            return;
-        }
+
+
     }
 }

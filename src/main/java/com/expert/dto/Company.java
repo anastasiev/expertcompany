@@ -51,6 +51,7 @@ public class Company {
         this.name = name;
     }
 
+
     public String getOffice() {
         return office;
     }
