@@ -99,6 +99,16 @@ public class NamedParametersDaoImpl extends NamedParameterJdbcDaoSupport {
             return false;
         return true;
     }
+    public boolean isPersonExist(String email){
+        String sql = "select count(*) from " + PERSON_TABLE +
+                " where email = :email";
+        SqlParameterSource parameterSource =
+                new MapSqlParameterSource("email",email);
+        int count = getNamedParameterJdbcTemplate().queryForObject(sql,parameterSource, Integer.class);
+        if(count == 0)
+            return false;
+        return true;
+    }
 
     public Person getPerson(String email){
         String sql = "select * from " + PERSON_TABLE + " where email = ?";

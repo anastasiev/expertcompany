@@ -34,6 +34,10 @@
                     </div>
                 </li>
                 <li>
+                    <div class="field"><input type="text" class="text" placeholder="Phone" name="contactPhone"  required>
+                    </div>
+                </li>
+                <li>
                     <div class="field"><input type="text" class="text" placeholder="City" name="contactCity" required>
                     </div>
                 </li>

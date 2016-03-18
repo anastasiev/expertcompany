@@ -1,6 +1,8 @@
 package com.expert.servlets;
 
 import com.expert.dao.NamedParametersDaoImpl;
+import com.expert.dto.Billing;
+import com.expert.dto.Company;
 import com.expert.dto.Person;
 import com.expert.service.SignUpService;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +14,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -27,6 +33,7 @@ public class SignUpServlet extends HttpServlet {
         params.put("firstName", request.getParameter("firstName"));
         params.put("lastName", request.getParameter("lastName"));
         params.put("contactEmail", request.getParameter("contactEmail"));
+        params.put("contactPhone", request.getParameter("contactPhone"));
         params.put("contactCity", request.getParameter("contactCity"));
         params.put("contactSkype", request.getParameter("contactSkype"));
         params.put("password", request.getParameter("password"));
@@ -45,7 +52,7 @@ public class SignUpServlet extends HttpServlet {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
         NamedParametersDaoImpl dao = ctx.getBean("namedParametersDaoImpl", NamedParametersDaoImpl.class);
 
-        if(dao.isLogin(params.get("contactEmail"), params.get("password"))){
+        if(dao.isPersonExist(params.get("contactEmail"))){
             response.sendRedirect("signup.jsp");
             return;
         }
@@ -61,9 +68,41 @@ public class SignUpServlet extends HttpServlet {
         }
         //Добавь Phone в регестрацию!!!!
 
-//        Person person = new Person(params.get("position"), params.get("firstName"),
-//                params.get("lastName"),params.get("email"),params.get("skype"),
-//                params.get("city"),params.get("pasword"));
+        Person person = new Person(params.get("position"), params.get("firstName"),
+                params.get("lastName"),params.get("contactPhone"),params.get("contactEmail"),
+                params.get("contactSkype"), params.get("contactCity"),params.get("password"));
+        System.out.println(person.getEmail());
+        dao.addPerson(person);
+        person = dao.getPerson(person.getEmail());
+
+        Company company = new Company(person.getId(), params.get("companyName"),
+                params.get("companyOffice"), params.get("companyFax"),
+                params.get("companyEmail"), params.get("companyBilling"),
+                params.get("companyCity"));
+
+        Billing billing = new Billing(person.getId(), params.get("billingMethod"),
+                params.get("bankDetails"), params.get("creditCard"),
+                params.get("billingCvv"),null);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            billing.setExpDate(formatter.parse(params.get("expDate")));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        dao.addCompany(company);
+        dao.addBilling(billing);
+        System.out.println("All right!!!!!!");
+
+        HttpSession session = request.getSession();
+        session.setAttribute("person", person);
+        session.setAttribute("company", company);
+        session.setAttribute("billing", billing);
+
+        response.sendRedirect("success.jsp");
+        return;
 
 
 
