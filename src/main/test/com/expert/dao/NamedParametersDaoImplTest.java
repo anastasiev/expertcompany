@@ -53,4 +53,10 @@ public class NamedParametersDaoImplTest {
         System.out.println(dao.isCompanyExist("dfv"));
         System.out.println(dao.isCompanyExist("ikhbjkb"));
     }
+
+    @Test
+    public void testGetCompany() throws Exception {
+        Company company = dao.getCompany(5);
+        System.out.println(company.getName());
+    }
 }

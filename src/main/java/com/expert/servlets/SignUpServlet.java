@@ -1,6 +1,10 @@
 package com.expert.servlets;
 
+import com.expert.dao.NamedParametersDaoImpl;
+import com.expert.dto.Person;
 import com.expert.service.SignUpService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,24 +42,32 @@ public class SignUpServlet extends HttpServlet {
         params.put("billingCvv", request.getParameter("billingCvv"));
         params.put("expDate", request.getParameter("expDate"));
 
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            System.out.println(entry.getKey() + "/" + entry.getValue());
-        }
-        SignUpService signUpService = new SignUpService();
-        boolean result = signUpService.registration(params);
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+        NamedParametersDaoImpl dao = ctx.getBean("namedParametersDaoImpl", NamedParametersDaoImpl.class);
 
-        if (result) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("success.jsp");
-            dispatcher.forward(request,response);
+        if(dao.isLogin(params.get("contactEmail"), params.get("password"))){
+            response.sendRedirect("signup.jsp");
             return;
         }
-        else {
+
+        if(dao.isCompanyExist(params.get("companyName"))){
             response.sendRedirect("signup.jsp");
+            return;
         }
 
+        if(dao.isBillingExist(params.get("creditCard"))){
+            response.sendRedirect("signup.jsp");
+            return;
+        }
+        //Добавь Phone в регестрацию!!!!
+
+//        Person person = new Person(params.get("position"), params.get("firstName"),
+//                params.get("lastName"),params.get("email"),params.get("skype"),
+//                params.get("city"),params.get("pasword"));
+
+
+
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-    }
 }

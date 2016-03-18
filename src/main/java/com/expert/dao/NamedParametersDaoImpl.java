@@ -100,6 +100,19 @@ public class NamedParametersDaoImpl extends NamedParameterJdbcDaoSupport {
         return true;
     }
 
+    public Person getPerson(String email){
+        String sql = "select * from " + PERSON_TABLE + " where email = ?";
+        return getJdbcTemplate().queryForObject(sql, new Object[]{email}, new PersonMapper());
+    }
+    public Company getCompany(int contactId){
+        String sql = "select * from " + COMPANY_TABLE + " where contact_id = ?";
+        return getJdbcTemplate().queryForObject(sql, new Object[]{contactId}, new CompanyMapper());
+    }
+    public Billing getBilling(int contactId){
+        String sql = "select * from " + BILLING_TABLE + " where contact_id = ?;";
+        return getJdbcTemplate().queryForObject(sql, new Object[]{contactId}, new BillingMapper());
+    }
+
 
     private final static class PersonMapper implements RowMapper<Person> {
         public Person mapRow(ResultSet rs, int i) throws SQLException {

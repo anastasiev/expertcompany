@@ -12,21 +12,7 @@
     <link href="css/style.css" rel='stylesheet' type='text/css'/>
 </head>
 <body>
-<%--<form action="/signUp" method="post">--%>
-<%--<br> Position <input type="text" name="position" required/>--%>
-<%--<br> First Name <input type="text" name="firstName" required/>--%>
-<%--<br> Last Name <input type="text" name="lastName" required/>--%>
-<%--<br> Email <input type="email" name="contactEmail" required/>--%>
-<%--<br> Skype Name <input type="text" name="contactSkype"/>--%>
-<%--<br> City <input type="text" name="contactCity" />--%>
-<%--<br> Password <input type="password" name="contactCity" required/>--%>
 
-
-<%--<br> <input type="submit" value="Submit"/>--%>
-
-
-<%--</form>--%>
-<%--Sing up form--%>
 <div class="main">
     <form action="/signUp" method="post">
         <div class="lable">
